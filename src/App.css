@@ -80,7 +80,7 @@ button:hover:not(:disabled) {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 1);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -132,7 +132,7 @@ button:hover:not(:disabled) {
 
 @media (min-width: 768px) {
   .image-slider {
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
   }
@@ -143,10 +143,10 @@ button:hover:not(:disabled) {
   }
   .image-text {
     width: 100%;
-    height: calc(100% - 40px);
+    height: calc(100% - 10px);
     direction: rtl;
-    padding: 20px;
-    color: yellow;
+    padding: 10px;
+    color: rgb(212, 212, 0);
     font-weight: bold;
     font-size: 40px;
     width: 50%;
