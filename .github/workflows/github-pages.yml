@@ -26,5 +26,5 @@ jobs:
         run: |
           git config --global user.name 'alonzo245'
           git config --global user.email 'noname@somekindofemailaddress.somthing.com'
-          git remote set-url origin https://x-access-token:${{ secrets.INDEXDB_IMAGE_GALLERY_PROJECT }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.INDEXDB_PROMPTER_IMAGE_GALLERY_PROJECT }}@github.com/${{ github.repository }}
           CI=false npm run deploy
