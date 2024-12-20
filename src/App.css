@@ -1,0 +1,154 @@
+/* General dark theme styling */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container styles */
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Input and button styles */
+input[type="file"] {
+  display: block;
+  margin: 10px 0;
+  color: #ffffff;
+}
+
+button {
+  background-color: #bb86fc;
+  color: #121212;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #5c5c5c;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #9c67df;
+}
+
+/* Image gallery */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.image-gallery img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid #3a3a3a;
+  border-radius: 4px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.1);
+  border-color: #bb86fc;
+}
+
+.image-gallery p {
+  margin-top: 5px;
+  font-size: 14px;
+  text-align: center;
+  color: #bbbbbb;
+}
+
+/* Full-screen slider styles */
+.image-slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.image-slider img {
+  width: 100vw; /* Limit the width to the browser's width */
+  max-height: 100vh; /* Limit the height to the browser's height */
+  object-fit: contain; /* Ensure the image fits without cropping or distortion */
+  display: block; /* Prevent extra spacing */
+  margin: 0 auto; /* Center the image within the slider */
+}
+
+.image-text {
+  width: 100%;
+  direction: rtl;
+  padding: 20px;
+  color: yellow;
+  font-weight: bold;
+  font-size: 40px;
+  width: calc(100% - 20px);
+}
+
+.close-slider,
+.exit-fullscreen {
+  position: absolute;
+  bottom: 20px; /* Position from the bottom */
+  font-size: 1.2rem;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-slider {
+  left: 20px; /* Align close button on the left */
+}
+
+.exit-fullscreen {
+  left: 150px; /* Place exit fullscreen button next to close slider */
+}
+
+.close-slider:hover,
+.exit-fullscreen:hover {
+  color: #ff0000;
+}
+
+@media (min-width: 768px) {
+  .image-slider {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .image-slider img {
+    width: 50%;
+    margin: 0;
+    align-self: flex-start;
+  }
+  .image-text {
+    width: 100%;
+    height: calc(100% - 40px);
+    direction: rtl;
+    padding: 20px;
+    color: yellow;
+    font-weight: bold;
+    font-size: 40px;
+    width: 50%;
+  }
+}
