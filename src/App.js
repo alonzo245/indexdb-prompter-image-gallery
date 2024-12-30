@@ -116,7 +116,7 @@ function App() {
         onClick={handleDeleteAll}
         style={{ marginLeft: "10px", backgroundColor: "#d9534f" }}
       >
-        Delete All
+        Delete All Images
       </button>
 
       <h2>Saved Images</h2>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const TextareaForm = () => {
   const [inputValue, setInputValue] = useState("");
+  const [itemsCount, setItemsCount] = useState(0);
   const [storedData, setStoredData] = useState([]);
 
   // Load the stored data from localStorage when the component mounts
@@ -15,6 +16,12 @@ const TextareaForm = () => {
   // Handle the input change
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+
+    const count = (e.target.value || "")
+      .split("**")
+      .filter((line) => line !== "").length;
+
+    setItemsCount(count || 0);
   };
 
   // Save the array to localStorage
@@ -44,6 +51,7 @@ const TextareaForm = () => {
 
     // Clear the input after submission
     setInputValue("");
+    setItemsCount(0);
   };
 
   return (
@@ -57,16 +65,24 @@ const TextareaForm = () => {
           placeholder="Enter text, each line will be stored as an array item."
         />
         <br />
-        <button type="submit">Save</button>
-        <button
-          onClick={handleClearItems}
-          style={{ marginTop: "10px", backgroundColor: "red", color: "white" }}
-        >
-          Clear Items
-        </button>
+        <div>
+          <div> Total items: {itemsCount}</div>
+          <button type="submit">Save items</button>
+          <button
+            onClick={handleClearItems}
+            style={{
+              marginTop: "10px",
+              backgroundColor: "red",
+              color: "white",
+            }}
+          >
+            Clear Items
+          </button>
+        </div>
       </form>
+      <br />
 
-      <h3>Stored Data</h3>
+      {/* <h3>Stored Data</h3> */}
       {/* <ul>
         {storedData.map((item, index) => (
           <li key={index}>{item}</li>
