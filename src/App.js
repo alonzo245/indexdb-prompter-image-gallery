@@ -43,6 +43,26 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        setCurrentImageIndex((prevPosition) => {
+          return prevPosition - 1 < 0 ? images.length - 1 : prevPosition - 1;
+        });
+      } else if (event.key === "ArrowRight") {
+        setCurrentImageIndex((prevPosition) => {
+          return images.length === prevPosition + 1 ? 0 : prevPosition + 1;
+        });
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [images]);
+
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
   };
