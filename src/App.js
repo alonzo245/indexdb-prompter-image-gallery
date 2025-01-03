@@ -12,6 +12,7 @@ function App() {
   const [itemsInputValue, setItemsInputValue] = useState("");
   const [itemsCount, setItemsCount] = useState(0);
   const [itemsStoredData, setItemsStoredData] = useState([]);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   const sliderRef = useRef(null);
 
@@ -116,7 +117,13 @@ function App() {
   };
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    if (images.length > 0) {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    } else {
+      setCurrentItemIndex(
+        (prevIndex) => (prevIndex + 1) % itemsStoredData.length
+      );
+    }
   };
 
   const closeSlider = () => {
@@ -164,16 +171,17 @@ function App() {
       </button>
 
       <div className="image-gallery">
-        {images.map((item, index) => (
-          <div key={index}>
-            <img
-              src={item.image}
-              alt={`Stored ${index}`}
-              onClick={() => openSlider(index)}
-              style={{ cursor: "pointer" }}
-            />
+        {(images.length > 0 ? images : itemsStoredData).map((item, index) => (
+          <div key={index} onClick={() => openSlider(index)}>
+            {images.length > 0 && (
+              <img
+                src={item.image}
+                alt={`Stored ${index}`}
+                style={{ cursor: "pointer" }}
+              />
+            )}
             <p className="preview-text">
-              {item.order + 1} {" - "}
+              {images.length > 0 ? `${item.order + 1} - ` : `${index + 1} - `}
               {(itemsStoredData || [])?.[index] || "אין מידע"}
             </p>
           </div>
@@ -182,12 +190,16 @@ function App() {
 
       {sliderActive && (
         <div className="image-slider" onClick={handleNextImage} ref={sliderRef}>
-          <img
-            src={images[currentImageIndex].image}
-            alt={`Slide ${currentImageIndex}`}
-          />
+          {images.length > 0 && (
+            <img
+              src={images[currentImageIndex].image}
+              alt={`Slide ${currentImageIndex}`}
+            />
+          )}
           <div className="image-text">
-            {(itemsStoredData || [])?.[currentImageIndex] || "אין מידע"}
+            {(itemsStoredData || [])?.[
+              images.length > 0 ? currentImageIndex : currentItemIndex
+            ] || "אין מידע"}
           </div>
           <div className="slider-buttons">
             <button
