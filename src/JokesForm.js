@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-const TextareaForm = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [itemsCount, setItemsCount] = useState(0);
-  const [storedData, setStoredData] = useState([]);
-
+const TextareaForm = ({
+  inputValue,
+  setInputValue,
+  itemsCount,
+  setItemsCount,
+  storedData,
+  setStoredData,
+}) => {
   // Load the stored data from localStorage when the component mounts
   useEffect(() => {
     const savedData = localStorage.getItem("textareaData");

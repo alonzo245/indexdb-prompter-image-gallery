@@ -6,40 +6,44 @@ import TextareaForm from "./JokesForm";
 function App() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [images, setImages] = useState([]);
-  const [storedItems, setStoredItems] = useState([]);
   const [sliderActive, setSliderActive] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // jokes
+  const [itemsInputValue, setItemsInputValue] = useState("");
+  const [itemsCount, setItemsCount] = useState(0);
+  const [itemsStoredData, setItemsStoredData] = useState([]);
+
   const sliderRef = useRef(null);
 
   useEffect(() => {
+    console.log("render");
+
     const fetchImages = async () => {
       const storedImages = await getImages();
       setImages(storedImages);
     };
     fetchImages();
-  }, []);
+  }, [itemsStoredData]);
 
   useEffect(() => {
-    // Add or remove the "slider-active" class to the body element
     if (sliderActive) {
       document.body.classList.add("slider-active");
-      enterFullscreen(); // Request fullscreen mode
+      enterFullscreen();
     } else {
       document.body.classList.remove("slider-active");
-      exitFullscreen(); // Exit fullscreen mode
+      exitFullscreen();
     }
 
-    // Cleanup on component unmount
     return () => {
       document.body.classList.remove("slider-active");
-      exitFullscreen(); // Ensure fullscreen mode is exited
+      exitFullscreen();
     };
   }, [sliderActive]);
 
   useEffect(() => {
     const savedData = localStorage.getItem("textareaData");
     if (savedData) {
-      setStoredItems(JSON.parse(savedData));
+      setItemsStoredData(JSON.parse(savedData));
     }
   }, []);
 
@@ -62,6 +66,19 @@ function App() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [images]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setSliderActive(false);
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
@@ -121,7 +138,14 @@ function App() {
 
   return (
     <div className="container">
-      <TextareaForm />
+      <TextareaForm
+        inputValue={itemsInputValue}
+        setInputValue={setItemsInputValue}
+        itemsCount={itemsCount}
+        setItemsCount={setItemsCount}
+        storedData={itemsStoredData}
+        setStoredData={setItemsStoredData}
+      />
 
       <input
         type="file"
@@ -139,7 +163,6 @@ function App() {
         Delete All Images
       </button>
 
-      <h2>Saved Images</h2>
       <div className="image-gallery">
         {images.map((item, index) => (
           <div key={index}>
@@ -149,7 +172,10 @@ function App() {
               onClick={() => openSlider(index)}
               style={{ cursor: "pointer" }}
             />
-            <p>Order: {item.order}</p>
+            <p className="preview-text">
+              {item.order + 1} {" - "}
+              {(itemsStoredData || [])?.[index] || "אין מידע"}
+            </p>
           </div>
         ))}
       </div>
@@ -161,7 +187,7 @@ function App() {
             alt={`Slide ${currentImageIndex}`}
           />
           <div className="image-text">
-            {(storedItems || [])?.[currentImageIndex] || "אין מידע"}
+            {(itemsStoredData || [])?.[currentImageIndex] || "אין מידע"}
           </div>
           <div className="slider-buttons">
             <button
