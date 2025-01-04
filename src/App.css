@@ -95,7 +95,7 @@ button:hover:not(:disabled) {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .image-slider img {
@@ -114,21 +114,33 @@ button:hover:not(:disabled) {
   font-weight: bold;
   font-size: 40px;
   width: calc(100% - 20px);
+  z-index: 1;
 }
 
 .close-slider,
+.increase-slider,
+.decrease-slider,
 .exit-fullscreen {
-  position: absolute;
+  position: fixed;
   bottom: 20px; /* Position from the bottom */
   font-size: 1.2rem;
   color: #ffffff;
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 9999;
 }
 
 .close-slider {
   left: 20px; /* Align close button on the left */
+}
+
+.decrease-slider {
+  left: 60px; /* Align close button on the left */
+}
+
+.increase-slider {
+  left: 100px; /* Align close button on the left */
 }
 
 .exit-fullscreen {
@@ -153,6 +165,11 @@ form {
   }
 }
 
+.slider-buttons {
+  position: fixed;
+  z-index: 9998;
+}
+
 @media (min-width: 768px) {
   .image-slider {
     flex-direction: row;
@@ -173,5 +190,6 @@ form {
     font-weight: bold;
     font-size: 40px;
     width: 50%;
+    z-index: 1;
   }
 }

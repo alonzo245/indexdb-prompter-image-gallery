@@ -13,73 +13,9 @@ function App() {
   const [itemsCount, setItemsCount] = useState(0);
   const [itemsStoredData, setItemsStoredData] = useState([]);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
+  const [itemsFontSize, setItemsFontSize] = useState(40);
 
   const sliderRef = useRef(null);
-
-  useEffect(() => {
-    console.log("render");
-
-    const fetchImages = async () => {
-      const storedImages = await getImages();
-      setImages(storedImages);
-    };
-    fetchImages();
-  }, [itemsStoredData]);
-
-  useEffect(() => {
-    if (sliderActive) {
-      document.body.classList.add("slider-active");
-      enterFullscreen();
-    } else {
-      document.body.classList.remove("slider-active");
-      exitFullscreen();
-    }
-
-    return () => {
-      document.body.classList.remove("slider-active");
-      exitFullscreen();
-    };
-  }, [sliderActive]);
-
-  useEffect(() => {
-    const savedData = localStorage.getItem("textareaData");
-    if (savedData) {
-      setItemsStoredData(JSON.parse(savedData));
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "ArrowLeft") {
-        setCurrentImageIndex((prevPosition) => {
-          return prevPosition - 1 < 0 ? images.length - 1 : prevPosition - 1;
-        });
-      } else if (event.key === "ArrowRight") {
-        setCurrentImageIndex((prevPosition) => {
-          return images.length === prevPosition + 1 ? 0 : prevPosition + 1;
-        });
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [images]);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setSliderActive(false);
-      }
-    };
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
 
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
@@ -143,6 +79,97 @@ function App() {
     }
   };
 
+  const increaseItemsFontSize = (e) => {
+    e.stopPropagation();
+
+    setItemsFontSize((prevSize) => prevSize + 2);
+  };
+
+  const decreaseItemsFontSize = (e) => {
+    e.stopPropagation();
+    setItemsFontSize((prevSize) => {
+      console.log(prevSize);
+
+      return itemsFontSize - 2 || 20;
+    });
+  };
+
+  useEffect(() => {
+    const savedFontSize = parseInt(localStorage.getItem("itemsFontSize"));
+    if (savedFontSize) {
+      setItemsFontSize(savedFontSize);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("itemsFontSize", itemsFontSize);
+
+    localStorage.setItem("itemsFontSize", itemsFontSize);
+  }, [itemsFontSize]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const storedImages = await getImages();
+      setImages(storedImages);
+    };
+    fetchImages();
+  }, [itemsStoredData]);
+
+  useEffect(() => {
+    if (sliderActive) {
+      document.body.classList.add("slider-active");
+      enterFullscreen();
+    } else {
+      document.body.classList.remove("slider-active");
+      exitFullscreen();
+    }
+
+    return () => {
+      document.body.classList.remove("slider-active");
+      exitFullscreen();
+    };
+  }, [sliderActive]);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("textareaData");
+    if (savedData) {
+      setItemsStoredData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        setCurrentImageIndex((prevPosition) => {
+          return prevPosition - 1 < 0 ? images.length - 1 : prevPosition - 1;
+        });
+      } else if (event.key === "ArrowRight") {
+        setCurrentImageIndex((prevPosition) => {
+          return images.length === prevPosition + 1 ? 0 : prevPosition + 1;
+        });
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [images]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setSliderActive(false);
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   return (
     <div className="container">
       <TextareaForm
@@ -196,7 +223,10 @@ function App() {
               alt={`Slide ${currentImageIndex}`}
             />
           )}
-          <div className="image-text">
+          <div
+            className="image-text"
+            style={{ fontSize: `${itemsFontSize}px` }}
+          >
             {(itemsStoredData || [])?.[
               images.length > 0 ? currentImageIndex : currentItemIndex
             ] || "אין מידע"}
@@ -210,6 +240,12 @@ function App() {
               }}
             >
               ×
+            </button>
+            <button className="decrease-slider" onClick={decreaseItemsFontSize}>
+              -
+            </button>
+            <button className="increase-slider" onClick={increaseItemsFontSize}>
+              +
             </button>
           </div>
         </div>
