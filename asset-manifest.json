@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/indexdb-prompter-image-gallery/static/css/main.0587acfe.css",
-    "main.js": "/indexdb-prompter-image-gallery/static/js/main.62eddda3.js",
+    "main.css": "/indexdb-prompter-image-gallery/static/css/main.8f0d5fca.css",
+    "main.js": "/indexdb-prompter-image-gallery/static/js/main.eba35e7a.js",
     "static/js/453.aafd6f6c.chunk.js": "/indexdb-prompter-image-gallery/static/js/453.aafd6f6c.chunk.js",
     "index.html": "/indexdb-prompter-image-gallery/index.html",
-    "main.0587acfe.css.map": "/indexdb-prompter-image-gallery/static/css/main.0587acfe.css.map",
-    "main.62eddda3.js.map": "/indexdb-prompter-image-gallery/static/js/main.62eddda3.js.map",
+    "main.8f0d5fca.css.map": "/indexdb-prompter-image-gallery/static/css/main.8f0d5fca.css.map",
+    "main.eba35e7a.js.map": "/indexdb-prompter-image-gallery/static/js/main.eba35e7a.js.map",
     "453.aafd6f6c.chunk.js.map": "/indexdb-prompter-image-gallery/static/js/453.aafd6f6c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0587acfe.css",
-    "static/js/main.62eddda3.js"
+    "static/css/main.8f0d5fca.css",
+    "static/js/main.eba35e7a.js"
   ]
 }
