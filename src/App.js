@@ -67,10 +67,10 @@ function App() {
   };
 
   const enterFullscreen = () => {
-    const elem = sliderRef.current;
-    if (elem && elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
+    // const elem = sliderRef.current;
+    // if (elem && elem.requestFullscreen) {
+    //   elem.requestFullscreen();
+    // }
   };
 
   const exitFullscreen = () => {
@@ -224,13 +224,18 @@ function App() {
             />
           )}
           <div
+            dangerouslySetInnerHTML={{
+              __html:
+                (itemsStoredData || [])?.[
+                  images.length > 0 ? currentImageIndex : currentItemIndex
+                ]
+                  .split("\n")
+                  .map((line) => `<p>${line}</p>`)
+                  .join("") || "אין מידע",
+            }}
             className="image-text"
             style={{ fontSize: `${itemsFontSize}px` }}
-          >
-            {(itemsStoredData || [])?.[
-              images.length > 0 ? currentImageIndex : currentItemIndex
-            ] || "אין מידע"}
-          </div>
+          />
           <div className="slider-buttons">
             <button
               className="close-slider"

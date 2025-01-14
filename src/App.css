@@ -117,6 +117,10 @@ button:hover:not(:disabled) {
   z-index: 1;
 }
 
+.image-text p {
+  margin: 0;
+}
+
 .close-slider,
 .increase-slider,
 .decrease-slider,
