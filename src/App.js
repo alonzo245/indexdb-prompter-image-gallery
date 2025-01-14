@@ -73,10 +73,10 @@ function App() {
   };
 
   const enterFullscreen = () => {
-    // const elem = sliderRef.current;
-    // if (elem && elem.requestFullscreen) {
-    //   elem.requestFullscreen();
-    // }
+    const elem = sliderRef.current;
+    if (elem && elem.requestFullscreen) {
+      elem.requestFullscreen();
+    }
   };
 
   const exitFullscreen = () => {
@@ -306,12 +306,12 @@ function App() {
             >
               ×
             </button>
-            <button className="decrease-slider" onClick={decreaseItemsFontSize}>
+            {/* <button className="decrease-slider" onClick={decreaseItemsFontSize}>
               -
             </button>
             <button className="increase-slider" onClick={increaseItemsFontSize}>
               +
-            </button>
+            </button> */}
           </div>
         </div>
       )}
