@@ -13,9 +13,15 @@ function App() {
   const [itemsCount, setItemsCount] = useState(0);
   const [itemsStoredData, setItemsStoredData] = useState([]);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
-  const [itemsFontSize, setItemsFontSize] = useState(40);
+  const [itemsFontSize, setItemsFontSize] = useState(0);
+  const [orientation, setOrientation] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+      ? "Portrait"
+      : "Landscape"
+  );
 
   const sliderRef = useRef(null);
+  const textRef = useRef(null);
 
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
@@ -94,6 +100,41 @@ function App() {
     });
   };
 
+  const calculateMaxFontSize = () => {
+    const textElement = textRef.current;
+    const containerElement = sliderRef.current;
+    // console.log(textElement.scrollHeight, containerElement.clientHeight);
+
+    let containerHight = containerElement.clientHeight;
+
+    if (orientation === "Portrait") {
+      containerHight = containerHight / 1.4;
+    }
+
+    let low = 10;
+    let high = orientation === "Portrait" ? 30 : 40;
+    let bestFit = low;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      textElement.style.fontSize = `${mid}px`;
+
+      if (
+        // textElement.scrollWidth <= containerElement.clientWidth &&
+        textElement.scrollHeight <= containerHight
+      ) {
+        console.log(textElement.scrollHeight, containerHight);
+
+        bestFit = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    textElement.style.fontSize = `${bestFit}px`;
+  };
+
   useEffect(() => {
     const savedFontSize = parseInt(localStorage.getItem("itemsFontSize"));
     if (savedFontSize) {
@@ -170,6 +211,24 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!textRef.current) return;
+    calculateMaxFontSize();
+  }, [currentImageIndex, currentItemIndex]);
+
+  useEffect(() => {
+    const handleOrientationChange = (e) => {
+      setOrientation(e.matches ? "Portrait" : "Landscape");
+    };
+
+    const mediaQuery = window.matchMedia("(orientation: portrait)");
+    mediaQuery.addEventListener("change", handleOrientationChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleOrientationChange);
+    };
+  }, []);
+
   return (
     <div className="container">
       <TextareaForm
@@ -234,7 +293,8 @@ function App() {
                   .join("") || "אין מידע",
             }}
             className="image-text"
-            style={{ fontSize: `${itemsFontSize}px` }}
+            // style={{ fontSize: `${itemsFontSize}px` }}
+            ref={textRef}
           />
           <div className="slider-buttons">
             <button

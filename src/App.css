@@ -93,7 +93,7 @@ button:hover:not(:disabled) {
   background-color: rgba(0, 0, 0, 1);
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   z-index: 999;
 }
@@ -112,7 +112,7 @@ button:hover:not(:disabled) {
   padding: 20px;
   color: yellow;
   font-weight: bold;
-  font-size: 40px;
+  /* font-size: 40px; */
   width: calc(100% - 20px);
   z-index: 1;
 }
@@ -178,7 +178,7 @@ form {
   .image-slider {
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
   }
   .image-slider img {
     width: 50%;
@@ -187,13 +187,27 @@ form {
   }
   .image-text {
     width: 100%;
-    height: calc(100% - 10px);
+    /* height: calc(100% - 10px); */
     direction: rtl;
     padding: 10px;
     color: rgb(212, 212, 0);
     font-weight: bold;
-    font-size: 40px;
+    /* font-size: 40px; */
     width: 50%;
     z-index: 1;
   }
+}
+
+@media (orientation: portrait) {
+  .image-text {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+  }
+}
+
+/* Landscape Orientation */
+@media (orientation: landscape) {
+  /* * {
+    color: white;
+  } */
 }
